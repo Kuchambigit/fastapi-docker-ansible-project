@@ -1,3 +1,4 @@
 *.war
 *.deb
 *.key
+*.war*

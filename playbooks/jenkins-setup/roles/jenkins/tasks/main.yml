@@ -1,0 +1,47 @@
+# Install Java
+- name: Install Java
+  apt:
+    name: openjdk-17-jdk
+    state: present
+    update_cache: yes
+
+# Install required packages
+- name: Install dependencies
+  apt:
+    name:
+      - wget
+      - gnupg
+      - curl
+    state: present
+
+# Add Jenkins GPG key
+- name: Add Jenkins key
+  shell: |
+    curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key \
+    | gpg --dearmor \
+    | sudo tee /usr/share/keyrings/jenkins-keyring.gpg > /dev/null
+
+# Add Jenkins repository
+- name: Add Jenkins repository
+  shell: |
+    echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.gpg] \
+    https://pkg.jenkins.io/debian-stable binary/" \
+    | sudo tee /etc/apt/sources.list.d/jenkins.list
+
+# Update apt cache
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+# Install Jenkins
+- name: Install Jenkins
+  apt:
+    name: jenkins
+    state: present
+
+# Start Jenkins service
+- name: Start Jenkins
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
