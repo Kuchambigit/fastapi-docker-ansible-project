@@ -1,0 +1,149 @@
+FastAPI Docker Jenkins Project Notes
+Project Goal
+Build and deploy a FastAPI application using:
+
+
+GitHub
+
+
+Jenkins
+
+
+Docker
+
+
+FastAPI
+
+
+Ubuntu VM
+
+
+
+1. Created GitHub Repository
+Repository:
+fastapi-docker-ansible-project
+Added:
+
+
+README.md
+
+
+Jenkinsfile
+
+
+Dockerfile
+
+
+requirements.txt
+
+
+main.py
+
+
+
+2. Installed Jenkins on Ubuntu VM
+Installed:
+
+
+Java 17
+
+
+Jenkins
+
+
+Docker
+
+
+Commands used:
+sudo apt install openjdk-17-jdk -y
+Installed Jenkins manually using .deb package after repository issues.
+Started Jenkins:
+sudo systemctl enable --now jenkinssudo systemctl status jenkins
+
+3. Fixed Jenkins + Docker Permission Issue
+Problem:
+permission denied while trying to connect to the docker API
+Solution:
+sudo usermod -aG docker jenkinssudo systemctl restart jenkinssudo systemctl restart dockersudo chmod 666 /var/run/docker.sock
+
+4. Created FastAPI Application
+main.py
+from fastapi import FastAPIapp = FastAPI()@app.get("/")def home():    return {"message": "FastAPI app running successfully"}
+
+5. Created requirements.txt
+fastapiuvicorn
+
+6. Created Dockerfile
+FROM python:3.11-slimWORKDIR /appCOPY . .RUN pip install -r requirements.txtEXPOSE 8000CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+7. Created Jenkins Pipeline
+Pipeline stages:
+
+
+Clone Repository
+
+
+Build Docker Image
+
+
+Stop Old Container
+
+
+Run Docker Container
+
+
+Verify Deployment
+
+
+Jenkins automatically pulls code from GitHub and deploys the app.
+
+8. Built Docker Image Successfully
+Docker build command:
+docker build -t fastapi-app .
+
+9. Ran Docker Container
+Application exposed on:
+http://192.168.1.153:8000
+Swagger UI:
+http://192.168.1.153:8000/docs
+
+10. Verified FastAPI API
+Tested endpoint:
+GET /
+Successful response:
+{  "message": "FastAPI app running successfully"}
+
+Architecture Flow
+GitHub   ↓Jenkins Pipeline   ↓Docker Build   ↓Docker Container   ↓FastAPI Application   ↓Browser / Swagger UI
+
+Key Skills Practiced
+
+
+CI/CD
+
+
+Jenkins Pipelines
+
+
+Docker Containerization
+
+
+FastAPI API Development
+
+
+GitHub Integration
+
+
+Linux Administration
+
+
+Troubleshooting Jenkins
+
+
+Docker Permissions
+
+
+API Testing
+
+
+Swagger Documentation

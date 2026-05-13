@@ -1,0 +1,33 @@
+---
+# Install Docker package
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+    update_cache: yes
+
+# Start Docker service
+- name: Start Docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+# Build FastAPI Docker image
+- name: Build FastAPI image
+  command: docker build -t fastapi-app .
+  args:
+    chdir: "{{ playbook_dir }}"
+
+# Remove old container if it exists
+- name: Remove old container
+  command: docker rm -f fastapi-container
+  ignore_errors: yes
+
+# Run FastAPI container
+- name: Run FastAPI container
+  command: >
+    docker run -d
+    -p {{ app_port }}:8000
+    --name fastapi-container
+    fastapi-app
