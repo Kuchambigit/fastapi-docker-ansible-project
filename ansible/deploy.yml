@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  become: true
+
+  tasks:
+
+    # Pull latest Docker image from DockerHub
+    - name: Pull Docker image
+      docker_image:
+        name: kuchambiatud/fastapi-app:latest
+        source: pull
+
+    # Stop old container
+    - name: Stop old container
+      docker_container:
+        name: fastapi-container
+        state: absent
+
+    # Run new container
+    - name: Run FastAPI container
+      docker_container:
+        name: fastapi-container
+        image: kuchambiatud/fastapi-app:latest
+        state: started
+        ports:
+          - "8000:8000"
