@@ -68,6 +68,17 @@ pipeline {
             }
         }
 
+        stage('Deploy with Ansible') {
+    steps {
+        script {
+
+            // Run Ansible deployment playbook
+            sh 'ansible-playbook ansible/deploy.yml'
+
+        }
+    }
+}
+
         stage('Stop Old Container') {
             steps {
                 script {
