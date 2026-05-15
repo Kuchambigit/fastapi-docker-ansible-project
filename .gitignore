@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Kubernetes
+*.log
+
+# VS Code
+.vscode/
+
+# Helm
+fastapi-chart/charts/
+
+# Environment files
+.env

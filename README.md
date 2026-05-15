@@ -85,3 +85,70 @@ python-app/
 │       └── files/
 webhook test
 poll scm test
+
+# FastAPI DevOps Platform Project
+
+## Overview
+This project demonstrates a complete DevOps workflow using:
+
+- FastAPI
+- Docker
+- Kubernetes (K3s)
+- Helm Charts
+- Prometheus Monitoring
+- Grafana Dashboards
+
+## Features
+
+- Containerized FastAPI application
+- Kubernetes deployments and services
+- Helm-based application packaging
+- Prometheus metrics endpoint
+- Grafana observability dashboards
+- Node Exporter monitoring
+
+## Technologies
+
+- Python
+- FastAPI
+- Docker
+- K3s
+- Helm
+- Prometheus
+- Grafana
+
+## Kubernetes Deployment
+
+```bash
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f ingress.yaml
+```
+
+## Helm Deployment
+
+```bash
+helm install fastapi-release ./fastapi-chart
+```
+
+## Monitoring
+
+Metrics endpoint:
+
+```text
+/metrics
+```
+
+Grafana dashboard available on port 3000.
+
+## Project Structure
+
+```text
+ansible-lab/
+├── fastapi-chart/
+├── k8s/
+├── main.py
+├── Dockerfile
+├── requirements.txt
+└── README.md
+```
